@@ -14,53 +14,56 @@ import type { IconType } from "react-icons";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
+const chunk = <T,>(arr: T[], size: number): T[][] =>
+  Array.from({ length: Math.ceil(arr.length / size) }, (_, i) =>
+    arr.slice(i * size, i * size + size)
+  );
+
 interface Skill {
   name: string;
   icon: IconType;
   color: string;
-  bg: string;
 }
 
 const groups: { category: string; skills: Skill[] }[] = [
   {
     category: "Frontend",
     skills: [
-      { name: "JavaScript",   icon: SiJavascript,  color: "#1e1e1e", bg: "#F7DF1E" },
-      { name: "TypeScript",   icon: SiTypescript,  color: "#ffffff", bg: "#3178C6" },
-      { name: "React",        icon: SiReact,       color: "#61DAFB", bg: "#1a1f35" },
-      { name: "Next.js",      icon: SiNextdotjs,   color: "#000000", bg: "#ffffff" },
-      { name: "Tailwind CSS", icon: SiTailwindcss, color: "#38BDF8", bg: "#0c1929" },
-      { name: "Sass",         icon: SiSass,        color: "#ffffff", bg: "#bf4080" },
-      { name: "Bootstrap",    icon: SiBootstrap,   color: "#ffffff", bg: "#7952B3" },
+      { name: "JavaScript",   icon: SiJavascript,  color: "#F7DF1E" },
+      { name: "TypeScript",   icon: SiTypescript,  color: "#3178C6" },
+      { name: "React",        icon: SiReact,       color: "#61DAFB" },
+      { name: "Next.js",      icon: SiNextdotjs,   color: "#ffffff" },
+      { name: "Tailwind CSS", icon: SiTailwindcss, color: "#38BDF8" },
+      { name: "Sass",         icon: SiSass,        color: "#CC6699" },
+      { name: "Bootstrap",    icon: SiBootstrap,   color: "#7952B3" },
     ],
   },
   {
     category: "Backend",
     skills: [
-      { name: "Node.js",    icon: SiNodedotjs, color: "#539E43", bg: "#0f1f0f" },
-      { name: "Express.js", icon: SiExpress,   color: "#ffffff", bg: "#1c1c1c" },
+      { name: "Node.js",    icon: SiNodedotjs, color: "#539E43" },
+      { name: "Express.js", icon: SiExpress,   color: "#ffffff"  },
     ],
   },
   {
     category: "Database",
     skills: [
-      { name: "MySQL",      icon: SiMysql,      color: "#4479A1", bg: "#0d1929" },
-      { name: "PostgreSQL", icon: SiPostgresql, color: "#699eca", bg: "#0d1534" },
-      { name: "MongoDB",    icon: SiMongodb,    color: "#47A248", bg: "#0d1f0d" },
+      { name: "MySQL",      icon: SiMysql,      color: "#4479A1" },
+      { name: "PostgreSQL", icon: SiPostgresql, color: "#699eca" },
+      { name: "MongoDB",    icon: SiMongodb,    color: "#47A248" },
     ],
   },
 ];
 
-function SkillItem({ name, icon: Icon, color, bg }: Skill) {
+function SkillItem({ name, icon: Icon, color }: Skill) {
   return (
-    <div className="flex items-center gap-3.5 group">
-      <div
-        className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 transition-transform duration-200 group-hover:scale-110"
-        style={{ backgroundColor: bg }}
-      >
-        <Icon size={22} color={color} />
-      </div>
-      <span className="text-slate-300 text-sm font-medium whitespace-nowrap group-hover:text-white transition-colors duration-150">
+    <div className="flex items-center gap-5 group">
+      <Icon
+        size={40}
+        color={color}
+        className="shrink-0 transition-transform duration-200 group-hover:scale-110"
+      />
+      <span className="text-slate-300 text-lg font-medium whitespace-nowrap group-hover:text-white transition-colors duration-150">
         {name}
       </span>
     </div>
@@ -80,7 +83,7 @@ export default function Skills() {
         scrub: 0.5,
       },
     });
-    tl.from(".slide-up", { opacity: 0, y: 40, ease: "none", stagger: 0.4 });
+    tl.from(".slide-up", { opacity: 0, y: 40, ease: "none", stagger: 0.25 });
   }, { scope: containerRef });
 
   // Animate OUT: whole section slides up and fades
@@ -110,19 +113,23 @@ export default function Skills() {
 
         {/* Skill groups */}
         {groups.map((group) => (
-          <div key={group.category} className="slide-up grid grid-cols-1 sm:grid-cols-[310px_1fr] gap-y-8 sm:gap-x-16 sm:gap-y-0 py-12">
+          <div key={group.category} className="grid grid-cols-1 sm:grid-cols-[310px_1fr] gap-y-8 sm:gap-x-16 sm:gap-y-0 py-12">
 
-            {/* Category name */}
-            <div className="flex items-start overflow-hidden">
+            {/* Category name — its own slide-up */}
+            <div className="slide-up flex items-start overflow-hidden">
               <h3 className="font-display text-[2.8rem] sm:text-[3.5rem] font-bold text-white uppercase leading-none">
                 {group.category}
               </h3>
             </div>
 
-            {/* Skills — 3 per row grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-8 gap-y-6 content-start">
-              {group.skills.map((skill) => (
-                <SkillItem key={skill.name} {...skill} />
+            {/* Skills — each row of 3 is its own slide-up */}
+            <div className="flex flex-col gap-6 content-start">
+              {chunk(group.skills, 3).map((row, ri) => (
+                <div key={ri} className="slide-up flex gap-x-8 gap-y-4 flex-wrap">
+                  {row.map((skill) => (
+                    <SkillItem key={skill.name} {...skill} />
+                  ))}
+                </div>
               ))}
             </div>
 

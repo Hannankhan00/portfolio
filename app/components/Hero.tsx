@@ -4,6 +4,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import MagneticButton from "./MagneticButton";
+import ScrollArrow from "./ScrollArrow";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -25,6 +26,7 @@ export default function Hero() {
 
   return (
     <section ref={containerRef} className="relative min-h-screen flex items-center z-10">
+      <ScrollArrow />
       <div className="w-full px-10 sm:px-16 lg:px-28 xl:px-36 py-28">
         <div className="max-w-4xl">
 
