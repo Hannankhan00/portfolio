@@ -1,6 +1,7 @@
 import StarField from "./components/StarField";
 import Menu from "./components/Menu";
 import CustomCursor from "./components/CustomCursor";
+import ScrollProgress from "./components/ScrollProgress";
 import Hero from "./components/Hero";
 import About from "./components/About";
 import Skills from "./components/Skills";
@@ -19,6 +20,9 @@ export default function Home() {
       {/* Custom cursor */}
       <CustomCursor />
 
+      {/* Scroll progress bar */}
+      <ScrollProgress />
+
       {/* Fixed background stars — covers entire page */}
       <StarField />
 
@@ -33,7 +37,7 @@ export default function Home() {
         >
           8hannankhan00@gmail.com
         </span>
-        <div className="w-px h-14 bg-gradient-to-b from-accent/30 to-transparent" />
+        <div className="w-px h-14 bg-linear-to-b from-accent/30 to-transparent" />
       </div>
 
       {/* Fixed right sidebar: stats */}

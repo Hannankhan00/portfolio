@@ -29,7 +29,7 @@ export default function RootLayout({
       lang="en"
       className={`${outfit.variable} ${spaceGrotesk.variable}`}
     >
-      <body className="min-h-screen antialiased">{children}</body>
+      <body className="min-h-screen antialiased" suppressHydrationWarning>{children}</body>
     </html>
   );
 }

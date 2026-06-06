@@ -30,7 +30,7 @@ export default function Menu() {
         className="w-12 h-12 rounded-full border border-white/15 backdrop-blur-sm flex items-center justify-center hover:border-accent/50 transition-all duration-300 group"
         style={{ background: "rgba(255,255,255,0.03)" }}
       >
-        <div className="flex flex-col gap-[5px] items-end">
+        <div className="flex flex-col gap-1.25 items-end">
           <span
             className="block h-[1.5px] bg-slate-300 group-hover:bg-accent transition-all duration-300"
             style={{ width: open ? 16 : 16, transform: open ? "rotate(45deg) translate(4px, 5px)" : "none" }}
@@ -49,15 +49,15 @@ export default function Menu() {
       {/* ── Dropdown panel ── */}
       {open && (
         <div
-          className={`absolute top-[60px] w-60 rounded-2xl border border-white/10 shadow-2xl shadow-black/70 overflow-hidden ${closing ? "menu-pop-out" : "menu-pop-in"}`}
+          className={`absolute top-15 w-60 rounded-2xl border border-white/10 shadow-2xl shadow-black/70 overflow-hidden ${closing ? "menu-pop-out" : "menu-pop-in"}`}
           style={{ background: "rgba(14,14,22,0.97)", backdropFilter: "blur(20px)" }}
         >
           {/* Header row */}
           <div className="flex items-center justify-between px-4 py-3 border-b border-white/5">
             {/* 2×2 accent dots */}
-            <div className="grid grid-cols-2 gap-[3px]">
+            <div className="grid grid-cols-2 gap-0.75">
               {[0, 1, 2, 3].map((i) => (
-                <span key={i} className="w-[6px] h-[6px] rounded-[2px] bg-accent/60" />
+                <span key={i} className="w-1.5 h-1.5 rounded-xs bg-accent/60" />
               ))}
             </div>
 
@@ -79,7 +79,7 @@ export default function Menu() {
                 key={label}
                 href={href}
                 onClick={close}
-                className="flex items-center justify-between px-5 py-3.5 border-b border-white/[0.04] last:border-0 group transition-colors duration-150 hover:bg-white/[0.04]"
+                className="flex items-center justify-between px-5 py-3.5 border-b border-white/4 last:border-0 group transition-colors duration-150 hover:bg-white/4"
                 style={{ animationDelay: `${i * 35}ms` }}
               >
                 <span className="text-sm text-slate-300 font-medium group-hover:text-white transition-colors duration-150">

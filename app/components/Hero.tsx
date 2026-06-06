@@ -1,8 +1,30 @@
+"use client";
+import { useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import MagneticButton from "./MagneticButton";
 
+gsap.registerPlugin(ScrollTrigger, useGSAP);
+
 export default function Hero() {
+  const containerRef = useRef<HTMLElement>(null);
+
+  // Slide content up and fade out as you scroll away (Banner.tsx pattern)
+  useGSAP(() => {
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: containerRef.current,
+        start: "bottom 70%",
+        end: "bottom 10%",
+        scrub: 1,
+      },
+    });
+    tl.to(".hero-el", { y: -150, opacity: 0, stagger: 0.02 });
+  }, { scope: containerRef });
+
   return (
-    <section className="relative min-h-screen flex items-center z-10">
+    <section ref={containerRef} className="relative min-h-screen flex items-center z-10">
       <div className="w-full px-10 sm:px-16 lg:px-28 xl:px-36 py-28">
         <div className="max-w-4xl">
 
@@ -16,7 +38,7 @@ export default function Hero() {
             <span className="text-white">Khan</span>
           </h1>
 
-          <p className="text-slate-400 text-base sm:text-lg mt-4 mb-10 max-w-[40ch] leading-relaxed hero-el hero-el-3">
+          <p className="text-slate-400 sm:text-lg mt-4 mb-10 max-w-[40ch] leading-relaxed hero-el hero-el-3">
             Building performant, scalable web applications from polished
             frontends to robust backends.
           </p>

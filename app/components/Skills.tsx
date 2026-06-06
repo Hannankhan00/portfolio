@@ -1,4 +1,8 @@
-import Reveal from "./Reveal";
+"use client";
+import { useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import { Asterisk } from "lucide-react";
 import {
   SiJavascript, SiTypescript, SiReact, SiNextdotjs,
@@ -7,6 +11,8 @@ import {
   SiMysql, SiPostgresql, SiMongodb,
 } from "react-icons/si";
 import type { IconType } from "react-icons";
+
+gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 interface Skill {
   name: string;
@@ -62,41 +68,65 @@ function SkillItem({ name, icon: Icon, color, bg }: Skill) {
 }
 
 export default function Skills() {
+  const containerRef = useRef<HTMLElement>(null);
+
+  // Animate IN: skill groups fade up
+  useGSAP(() => {
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: containerRef.current,
+        start: "top 80%",
+        end: "bottom 80%",
+        scrub: 0.5,
+      },
+    });
+    tl.from(".slide-up", { opacity: 0, y: 40, ease: "none", stagger: 0.4 });
+  }, { scope: containerRef });
+
+  // Animate OUT: whole section slides up and fades
+  useGSAP(() => {
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: containerRef.current,
+        start: "bottom 50%",
+        end: "bottom 10%",
+        scrub: 1,
+      },
+    });
+    tl.to(containerRef.current, { y: -150, opacity: 0 });
+  }, { scope: containerRef });
+
   return (
-    <section id="skills" className="relative z-10 py-24 px-10 sm:px-16 lg:px-28 xl:px-36">
+    <section ref={containerRef} id="skills" className="relative z-10 py-24 px-10 sm:px-16 lg:px-28 xl:px-36">
       <div className="max-w-6xl mx-auto">
 
         {/* * MY STACK */}
-        <Reveal>
-          <div className="flex items-center gap-2 mb-12">
-            <Asterisk size={15} strokeWidth={2.5} className="text-accent" />
-            <span className="text-slate-400 text-xs font-medium tracking-[0.25em] uppercase">
-              My Stack
-            </span>
-          </div>
-        </Reveal>
+        <div className="slide-up flex items-center gap-2 mb-12">
+          <Asterisk size={15} strokeWidth={2.5} className="text-accent" />
+          <span className="text-slate-400 text-xs font-medium tracking-[0.25em] uppercase">
+            My Stack
+          </span>
+        </div>
 
         {/* Skill groups */}
-        {groups.map((group, gi) => (
-          <Reveal key={group.category} delay={gi * 80}>
-            <div className="grid grid-cols-1 sm:grid-cols-[310px_1fr] gap-y-8 sm:gap-x-16 sm:gap-y-0 py-12 border-t border-white/[0.07] last:border-b last:border-white/[0.07]">
+        {groups.map((group) => (
+          <div key={group.category} className="slide-up grid grid-cols-1 sm:grid-cols-[310px_1fr] gap-y-8 sm:gap-x-16 sm:gap-y-0 py-12">
 
-              {/* Category name */}
-              <div className="flex items-start overflow-hidden">
-                <h3 className="font-display text-[2.8rem] sm:text-[3.5rem] font-bold text-white uppercase leading-none">
-                  {group.category}
-                </h3>
-              </div>
-
-              {/* Skills — 3 per row grid */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-8 gap-y-6 content-start">
-                {group.skills.map((skill) => (
-                  <SkillItem key={skill.name} {...skill} />
-                ))}
-              </div>
-
+            {/* Category name */}
+            <div className="flex items-start overflow-hidden">
+              <h3 className="font-display text-[2.8rem] sm:text-[3.5rem] font-bold text-white uppercase leading-none">
+                {group.category}
+              </h3>
             </div>
-          </Reveal>
+
+            {/* Skills — 3 per row grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-8 gap-y-6 content-start">
+              {group.skills.map((skill) => (
+                <SkillItem key={skill.name} {...skill} />
+              ))}
+            </div>
+
+          </div>
         ))}
 
       </div>

@@ -1,5 +1,10 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+
+gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 interface RevealProps {
   children: React.ReactNode;
@@ -7,50 +12,32 @@ interface RevealProps {
   className?: string;
 }
 
-export default function Reveal({ children, delay = 0, className = "" }: RevealProps) {
+export default function Reveal({ children, className = "" }: RevealProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  useEffect(() => {
+  useGSAP(() => {
     const el = ref.current;
     if (!el) return;
 
-    const update = () => {
-      const { top, bottom } = el.getBoundingClientRect();
-      const vh = window.innerHeight;
-
-      if (bottom < 0) {
-        // Fully above viewport — slide out upward
-        if (timer.current) clearTimeout(timer.current);
-        el.classList.remove("revealed");
-        el.classList.add("exit-up");
-      } else if (top > vh) {
-        // Fully below viewport — snap back to ready state instantly (no transition)
-        if (timer.current) clearTimeout(timer.current);
-        el.classList.add("no-transition");
-        el.classList.remove("revealed", "exit-up");
-        requestAnimationFrame(() => el.classList.remove("no-transition"));
-      } else {
-        // In viewport — reveal
-        if (timer.current) clearTimeout(timer.current);
-        timer.current = setTimeout(() => {
-          el.classList.add("revealed");
-          el.classList.remove("exit-up");
-        }, delay);
+    gsap.fromTo(
+      el,
+      { opacity: 0, y: 28 },
+      {
+        opacity: 1,
+        y: 0,
+        ease: "none",
+        scrollTrigger: {
+          trigger: el,
+          start: "top 88%",
+          end: "top 40%",
+          scrub: 0.5,
+        },
       }
-    };
-
-    window.addEventListener("scroll", update, { passive: true });
-    update();
-
-    return () => {
-      window.removeEventListener("scroll", update);
-      if (timer.current) clearTimeout(timer.current);
-    };
-  }, [delay]);
+    );
+  }, { scope: ref });
 
   return (
-    <div ref={ref} className={`reveal ${className}`}>
+    <div ref={ref} className={className}>
       {children}
     </div>
   );

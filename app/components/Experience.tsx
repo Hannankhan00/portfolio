@@ -1,27 +1,87 @@
-import SectionLabel from "./SectionLabel";
-import Reveal from "./Reveal";
-import { Briefcase } from "lucide-react";
+"use client";
+import { useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+import { Asterisk } from "lucide-react";
+
+gsap.registerPlugin(ScrollTrigger, useGSAP);
+
+const experiences = [
+  {
+    company: "Acme Corp",
+    role: "Senior Frontend Engineer",
+    period: "Jan 2024 – Present",
+  },
+  {
+    company: "Bright Digital",
+    role: "Frontend Developer",
+    period: "Mar 2022 – Dec 2023",
+  },
+  {
+    company: "Nova Systems",
+    role: "Software Engineer",
+    period: "Jun 2021 – Feb 2022",
+  },
+  {
+    company: "Pixel Labs",
+    role: "Web Developer Intern",
+    period: "Jan 2021 – May 2021",
+  },
+];
 
 export default function Experience() {
+  const containerRef = useRef<HTMLElement>(null);
+
+  // Animate IN
+  useGSAP(() => {
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: containerRef.current,
+        start: "top 60%",
+        end: "bottom 50%",
+        toggleActions: "restart none none reverse",
+        scrub: 1,
+      },
+    });
+    tl.from(".experience-item", { y: 50, opacity: 0, stagger: 0.3 });
+  }, { scope: containerRef });
+
+  // Animate OUT
+  useGSAP(() => {
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: containerRef.current,
+        start: "bottom 50%",
+        end: "bottom 20%",
+        scrub: 1,
+      },
+    });
+    tl.to(containerRef.current, { y: -150, opacity: 0 });
+  }, { scope: containerRef });
+
   return (
-    <section id="experience" className="relative z-10 py-28 px-10 sm:px-16 lg:px-28 xl:px-36">
+    <section ref={containerRef} id="experience" className="relative z-10 py-16 sm:py-24 px-6 sm:px-16 lg:px-28 xl:px-36">
       <div className="max-w-6xl mx-auto">
 
-        <Reveal>
-          <SectionLabel>Experience</SectionLabel>
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-white mt-4 mb-14">
-            Work History
-          </h2>
-        </Reveal>
+        {/* * MY EXPERIENCE */}
+        <div className="experience-item flex items-center gap-2 mb-8 sm:mb-12">
+          <Asterisk size={15} strokeWidth={2.5} className="text-accent" />
+          <span className="text-slate-400 text-xs font-medium tracking-[0.25em] uppercase">
+            My Experience
+          </span>
+        </div>
 
-        <Reveal delay={150}>
-          <div className="flex flex-col items-center justify-center py-24 rounded-2xl border border-dashed border-white/10 bg-surface/20">
-            <div className="w-12 h-12 rounded-full border border-accent/20 flex items-center justify-center mb-4 text-accent/40">
-              <Briefcase size={20} />
-            </div>
-            <p className="text-slate-500 text-sm">Experience details coming soon</p>
+        {/* Experience entries */}
+        {experiences.map((exp) => (
+          <div key={exp.company} className="experience-item py-6 sm:py-10">
+            <p className="text-slate-500 text-xs sm:text-sm mb-1">{exp.company}</p>
+            <h3 className="font-display text-[1.75rem] sm:text-[3rem] md:text-[3.6rem] font-bold text-white leading-tight sm:leading-none mb-2 sm:mb-3">
+              {exp.role}
+            </h3>
+            <p className="text-slate-500 text-xs sm:text-sm">{exp.period}</p>
           </div>
-        </Reveal>
+        ))}
 
       </div>
     </section>
