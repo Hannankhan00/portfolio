@@ -41,7 +41,7 @@ export default function Home() {
       </div>
 
       {/* Fixed right sidebar: stats */}
-      <div className="fixed right-8 top-[62%] -translate-y-1/2 hidden lg:flex flex-col items-end gap-10 z-20">
+      <div className="hidden lg:flex flex-col items-end gap-10 z-20" style={{ position: 'fixed', right: '2rem', top: '62%', transform: 'translateY(-50%)' }}>
         {stats.map(({ value, label }) => (
           <div key={value} className="text-right">
             <p className="font-display text-4xl font-bold text-accent leading-none">
