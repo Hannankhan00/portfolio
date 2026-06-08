@@ -110,17 +110,6 @@ export default function Footer() {
 
       <div className="max-w-6xl mx-auto">
 
-        {/* Availability badge */}
-        <div className="footer-el flex items-center justify-center gap-2 mb-6">
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
-          </span>
-          <span className="text-slate-400 text-xs font-medium tracking-[0.22em] uppercase">
-            Available for new projects
-          </span>
-        </div>
-
         {/* CTA heading */}
         <p className="footer-el font-display font-bold text-white text-[1.3rem] sm:text-[1.9rem] md:text-[2.4rem] leading-tight text-center mb-4">
           Have a project in mind?
@@ -176,7 +165,7 @@ export default function Footer() {
               GitHub
             </a>
             <a
-              href="https://www.linkedin.com/in/hannankhan00"
+              href="https://www.linkedin.com/in/muhammadhannankhan"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 text-slate-400 hover:text-white

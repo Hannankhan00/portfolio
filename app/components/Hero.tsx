@@ -45,7 +45,7 @@ export default function Hero() {
             frontends to robust backends.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 hero-el hero-el-4">
+          <div className="flex flex-col items-start gap-4 hero-el hero-el-4">
             <MagneticButton href="mailto:8hannankhan00@gmail.com" />
 
             <div className="flex items-center gap-2.5">
@@ -54,7 +54,7 @@ export default function Hero() {
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-green-400" />
               </span>
               <span className="text-slate-400 text-sm">
-                Available for opportunities
+                Available for new projects
               </span>
             </div>
           </div>
