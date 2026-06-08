@@ -66,28 +66,28 @@ export default function Footer() {
     <footer
       ref={containerRef}
       id="contact"
-      className="relative z-10 overflow-hidden pt-24 pb-10 px-10 sm:px-16 lg:px-28 xl:px-36"
+      className="relative z-10 pt-24 pb-10 px-10 sm:px-16 lg:px-28 xl:px-36"
     >
-      {/* Scroll-linked rising glow */}
+      {/* Scroll-linked rising glow — extends above the footer for a seamless blend */}
       <div
         ref={glowRef}
         aria-hidden="true"
-        className="pointer-events-none absolute bottom-0 left-0 right-0"
-        style={{ height: "85vh" }}
+        className="pointer-events-none absolute left-0 right-0 bottom-0"
+        style={{ height: "140vh", top: "-40vh" }}
       >
-        {/* Bright inner core */}
+        {/* Gradient: fully transparent at top, blooms at bottom */}
         <div
           className="absolute inset-0"
           style={{
             background: `
-              radial-gradient(ellipse 40% 28% at 50% 100%, rgba(240,220,255,0.45) 0%, transparent 50%),
-              radial-gradient(ellipse 80% 65% at 50% 100%, rgba(168,85,247,0.70) 0%, rgba(147,51,234,0.38) 38%, transparent 65%)
+              radial-gradient(ellipse 38% 25% at 50% 100%, rgba(240,220,255,0.5) 0%, transparent 48%),
+              radial-gradient(ellipse 85% 60% at 50% 100%, rgba(168,85,247,0.72) 0%, rgba(147,51,234,0.35) 42%, transparent 65%)
             `,
           }}
         />
-        {/* Grain / noise texture */}
+        {/* Grain texture */}
         <svg
-          className="absolute inset-0 w-full h-full opacity-20 mix-blend-overlay"
+          className="absolute inset-0 w-full h-full opacity-[0.18] mix-blend-overlay"
           xmlns="http://www.w3.org/2000/svg"
         >
           <filter id="footer-noise">
