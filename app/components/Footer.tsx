@@ -53,7 +53,7 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto">
 
         {/* Availability badge */}
-        <div className="footer-el flex items-center gap-2 mb-6">
+        <div className="footer-el flex items-center justify-center gap-2 mb-6">
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60" />
             <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
@@ -63,28 +63,28 @@ export default function Footer() {
           </span>
         </div>
 
-        {/* Small CTA label */}
-        <p className="footer-el text-slate-500 text-sm tracking-wide mb-4">
+        {/* CTA heading */}
+        <p className="footer-el font-display font-bold text-white text-[2rem] sm:text-[3rem] md:text-[3.8rem] leading-tight text-center mb-4">
           Have a project in mind?
         </p>
 
         {/* Email — hero */}
         <a
           href="mailto:8hannankhan00@gmail.com"
-          className="footer-el group inline-flex items-end gap-4 mb-20"
+          className="footer-el group flex items-center justify-center gap-3 mb-20"
         >
           <span className="font-display font-bold text-white leading-none
-            text-[1.9rem] sm:text-[3rem] md:text-[3.8rem] lg:text-[4.4rem]
+            text-[1.3rem] sm:text-[1.9rem] md:text-[2.4rem]
             transition-all duration-500 group-hover:text-transparent
             group-hover:bg-clip-text group-hover:bg-gradient-to-r
             group-hover:from-accent group-hover:via-purple-300 group-hover:to-accent">
             8hannankhan00@gmail.com
           </span>
-          <span className="mb-1 sm:mb-2 flex items-center justify-center w-9 h-9 rounded-full
+          <span className="flex items-center justify-center w-8 h-8 rounded-full
             border border-white/10 bg-white/5
             group-hover:bg-accent/15 group-hover:border-accent/40
             transition-all duration-300 shrink-0">
-            <ArrowUpRight size={15} className="text-slate-500 group-hover:text-accent
+            <ArrowUpRight size={14} className="text-slate-500 group-hover:text-accent
               group-hover:translate-x-0.5 group-hover:-translate-y-0.5
               transition-all duration-300" />
           </span>
