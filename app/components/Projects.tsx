@@ -45,6 +45,24 @@ const projects: Project[] = [
     ],
     image: null, // /assets/skillspill.png — upload to public/assets/
   },
+  {
+    id: 2,
+    title: "Compact Personnel",
+    subtitle: "Healthcare & care-staffing platform",
+    url: "https://www.compactpersonnel.co.uk",
+    urlLabel: "compactpersonnel.co.uk",
+    description:
+      "A full landing platform for Compact Personnel, a UK-based care organisation that supports adults with learning disabilities, complex needs, and neurodivergent conditions. The site presents their full service catalogue — Supported Living, Domiciliary Care, Complex Care, Mental Health Support, Live-in Care, Respite, Palliative & End of Life Care, and Hospital-to-Home transitions — with a person-centred design that reflects their mission of independence, choice, and social inclusion. The platform is built to scale with a recruitment system and additional modules.",
+    highlights: [
+      "Landing platform covering 8 care service categories",
+      "Recruitment system integration for care-staff hiring",
+      "Person-centred design reflecting the company's therapeutic approach",
+      "Framer Motion page transitions and scroll animations",
+      "Modular architecture allowing new service pages and features",
+    ],
+    tech: ["Next.js", "Node.js", "Tailwind CSS", "Framer Motion"],
+    image: null, // /assets/compactpersonnel.png — upload to public/assets/
+  },
 ];
 
 /* ── Modal ── */
