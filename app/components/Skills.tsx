@@ -7,6 +7,7 @@ import { Asterisk } from "lucide-react";
 import {
   SiJavascript, SiTypescript, SiReact, SiNextdotjs,
   SiTailwindcss, SiSass, SiBootstrap,
+  SiGsap, SiFramer,
   SiNodedotjs, SiExpress,
   SiMysql, SiPostgresql, SiMongodb,
 } from "react-icons/si";
@@ -34,8 +35,10 @@ const groups: { category: string; skills: Skill[] }[] = [
       { name: "React",        icon: SiReact,       color: "#61DAFB" },
       { name: "Next.js",      icon: SiNextdotjs,   color: "#ffffff" },
       { name: "Tailwind CSS", icon: SiTailwindcss, color: "#38BDF8" },
-      { name: "Sass",         icon: SiSass,        color: "#CC6699" },
+      { name: "Sass",          icon: SiSass,        color: "#CC6699" },
       { name: "Bootstrap",    icon: SiBootstrap,   color: "#7952B3" },
+      { name: "GSAP",         icon: SiGsap,        color: "#88CE02" },
+      { name: "Framer Motion", icon: SiFramer,     color: "#0055FF" },
     ],
   },
   {

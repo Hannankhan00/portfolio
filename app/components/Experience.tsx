@@ -9,24 +9,19 @@ gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 const experiences = [
   {
-    company: "Acme Corp",
-    role: "Senior Frontend Engineer",
-    period: "Jan 2024 – Present",
+    company: "RapidTech Pro",
+    role: "Full Stack Developer",
+    period: "Jun 2024 – Present",
   },
   {
-    company: "Bright Digital",
-    role: "Frontend Developer",
-    period: "Mar 2022 – Dec 2023",
+    company: "Inhancers",
+    role: "WordPress Developer",
+    period: "Nov 2023 – May 2024",
   },
   {
-    company: "Nova Systems",
-    role: "Software Engineer",
-    period: "Jun 2021 – Feb 2022",
-  },
-  {
-    company: "Pixel Labs",
-    role: "Web Developer Intern",
-    period: "Jan 2021 – May 2021",
+    company: "Inhancers",
+    role: "Graphic Designer",
+    period: "May 2023 – Oct 2023",
   },
 ];
 
