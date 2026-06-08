@@ -68,30 +68,49 @@ export default function Footer() {
       id="contact"
       className="relative z-10 pt-24 pb-10 px-10 sm:px-16 lg:px-28 xl:px-36"
     >
-      {/* Scroll-linked rising glow — extends above the footer for a seamless blend */}
+      {/* Scroll-linked rising glow */}
       <div
         ref={glowRef}
         aria-hidden="true"
         className="pointer-events-none absolute left-0 right-0 bottom-0"
         style={{ height: "140vh", top: "-40vh" }}
       >
-        {/* Gradient: fully transparent at top, blooms at bottom */}
+        {/* Linear gradient: transparent at top, purple blooms at bottom */}
         <div
           className="absolute inset-0"
           style={{
             background: `
-              radial-gradient(ellipse 38% 25% at 50% 100%, rgba(240,220,255,0.5) 0%, transparent 48%),
-              radial-gradient(ellipse 85% 60% at 50% 100%, rgba(168,85,247,0.72) 0%, rgba(147,51,234,0.35) 42%, transparent 65%)
+              radial-gradient(ellipse 65% 32% at 50% 100%, rgba(220,190,255,0.55) 0%, transparent 50%),
+              linear-gradient(to bottom, transparent 35%, rgba(147,51,234,0.25) 65%, rgba(168,85,247,0.75) 100%)
             `,
           }}
         />
+
+        {/* Vertical dotted column lines */}
+        <svg
+          className="absolute inset-0 w-full h-full"
+          xmlns="http://www.w3.org/2000/svg"
+          preserveAspectRatio="none"
+        >
+          {[1,2,3,4,5,6,7].map((i) => (
+            <line
+              key={i}
+              x1={`${(i / 8) * 100}%`} y1="0"
+              x2={`${(i / 8) * 100}%`} y2="100%"
+              stroke="rgba(255,255,255,0.1)"
+              strokeWidth="1"
+              strokeDasharray="3 12"
+            />
+          ))}
+        </svg>
+
         {/* Grain texture */}
         <svg
           className="absolute inset-0 w-full h-full opacity-[0.18] mix-blend-overlay"
           xmlns="http://www.w3.org/2000/svg"
         >
           <filter id="footer-noise">
-            <feTurbulence type="fractalNoise" baseFrequency="0.68" numOctaves="3" stitchTiles="stitch" />
+            <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" />
             <feColorMatrix type="saturate" values="0" />
           </filter>
           <rect width="100%" height="100%" filter="url(#footer-noise)" />
