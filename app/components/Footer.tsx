@@ -78,10 +78,7 @@ export default function Footer() {
         <div
           className="absolute inset-0"
           style={{
-            background: `
-              radial-gradient(ellipse 65% 32% at 50% 100%, rgba(220,190,255,0.55) 0%, transparent 50%),
-              linear-gradient(to bottom, transparent 0%, rgba(147,51,234,0.20) 50%, rgba(168,85,247,0.80) 100%)
-            `,
+            background: `radial-gradient(ellipse 65% 32% at 50% 100%, rgba(220,190,255,0.55) 0%, transparent 50%)`,
           }}
         />
 
