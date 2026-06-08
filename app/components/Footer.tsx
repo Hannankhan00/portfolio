@@ -66,22 +66,21 @@ export default function Footer() {
     <footer
       ref={containerRef}
       id="contact"
-      className="relative z-10 pt-24 pb-10 px-10 sm:px-16 lg:px-28 xl:px-36"
+      className="relative z-10 overflow-hidden pt-24 pb-10 px-10 sm:px-16 lg:px-28 xl:px-36"
     >
       {/* Scroll-linked rising glow */}
       <div
         ref={glowRef}
         aria-hidden="true"
-        className="pointer-events-none absolute left-0 right-0 bottom-0"
-        style={{ height: "140vh", top: "-40vh" }}
+        className="pointer-events-none absolute inset-0"
       >
-        {/* Linear gradient: transparent at top, purple blooms at bottom */}
+        {/* Linear gradient: transparent at top, purple fills to bottom */}
         <div
           className="absolute inset-0"
           style={{
             background: `
               radial-gradient(ellipse 65% 32% at 50% 100%, rgba(220,190,255,0.55) 0%, transparent 50%),
-              linear-gradient(to bottom, transparent 35%, rgba(147,51,234,0.25) 65%, rgba(168,85,247,0.75) 100%)
+              linear-gradient(to bottom, transparent 0%, rgba(147,51,234,0.20) 50%, rgba(168,85,247,0.80) 100%)
             `,
           }}
         />
