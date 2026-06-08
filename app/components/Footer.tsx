@@ -25,7 +25,9 @@ function LinkedInIcon() {
 
 export default function Footer() {
   const containerRef = useRef<HTMLElement>(null);
+  const glowRef      = useRef<HTMLDivElement>(null);
 
+  // Content reveal
   useGSAP(() => {
     gsap.from(".footer-el", {
       y: 36,
@@ -41,12 +43,42 @@ export default function Footer() {
     });
   }, { scope: containerRef });
 
+  // Glow rises up as you scroll in, sinks back as you scroll out
+  useGSAP(() => {
+    gsap.fromTo(
+      glowRef.current,
+      { y: 160, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        ease: "none",
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top bottom",
+          end: "top 30%",
+          scrub: 1.5,
+        },
+      }
+    );
+  }, { scope: containerRef });
+
   return (
     <footer
       ref={containerRef}
       id="contact"
       className="relative z-10 overflow-hidden pt-24 pb-10 px-10 sm:px-16 lg:px-28 xl:px-36"
     >
+      {/* Scroll-linked rising glow */}
+      <div
+        ref={glowRef}
+        aria-hidden="true"
+        className="pointer-events-none absolute bottom-0 left-0 right-0 h-[75%]"
+        style={{
+          background:
+            "radial-gradient(ellipse 90% 70% at 50% 100%, rgba(168,85,247,0.28) 0%, rgba(168,85,247,0.10) 40%, transparent 70%)",
+        }}
+      />
+
       {/* Glow line */}
       <div className="footer-el absolute top-0 left-1/2 -translate-x-1/2 w-[55%] h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
 
@@ -64,7 +96,7 @@ export default function Footer() {
         </div>
 
         {/* CTA heading */}
-        <p className="footer-el font-display font-bold text-white text-[2rem] sm:text-[3rem] md:text-[3.8rem] leading-tight text-center mb-4">
+        <p className="footer-el font-display font-bold text-white text-[1.3rem] sm:text-[1.9rem] md:text-[2.4rem] leading-tight text-center mb-4">
           Have a project in mind?
         </p>
 
@@ -74,7 +106,7 @@ export default function Footer() {
           className="footer-el group flex items-center justify-center gap-3 mb-20"
         >
           <span className="font-display font-bold text-white leading-none
-            text-[1.3rem] sm:text-[1.9rem] md:text-[2.4rem]
+            text-[2rem] sm:text-[3rem] md:text-[3.8rem]
             transition-all duration-500 group-hover:text-transparent
             group-hover:bg-clip-text group-hover:bg-gradient-to-r
             group-hover:from-accent group-hover:via-purple-300 group-hover:to-accent">
