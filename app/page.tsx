@@ -41,7 +41,7 @@ export default function Home() {
       </div>
 
       {/* Fixed right sidebar: stats */}
-      <div className="fixed right-8 top-1/2 -translate-y-1/2 hidden lg:flex flex-col items-end gap-10 z-20">
+      <div className="fixed right-8 top-[62%] -translate-y-1/2 hidden lg:flex flex-col items-end gap-10 z-20">
         {stats.map(({ value, label }) => (
           <div key={value} className="text-right">
             <p className="font-display text-4xl font-bold text-accent leading-none">
@@ -60,6 +60,7 @@ export default function Home() {
         <Skills />
         <Experience />
         <Projects />
+        <div className="h-24 sm:h-36" />
       </main>
       <Footer />
     </>

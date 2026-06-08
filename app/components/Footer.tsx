@@ -66,7 +66,7 @@ export default function Footer() {
     <footer
       ref={containerRef}
       id="contact"
-      className="relative z-10 overflow-hidden pt-24 pb-10 px-10 sm:px-16 lg:px-28 xl:px-36"
+      className="relative z-10 overflow-hidden pt-16 sm:pt-24 pb-10 px-6 sm:px-16 lg:px-28 xl:px-36"
     >
       {/* Scroll-linked rising glow */}
       <div
@@ -118,20 +118,20 @@ export default function Footer() {
         {/* Email — hero */}
         <a
           href="mailto:8hannankhan00@gmail.com"
-          className="footer-el group flex items-center justify-center gap-3 mb-20"
+          className="footer-el group flex items-center justify-center gap-2 sm:gap-3 mb-14 sm:mb-20 min-w-0"
         >
-          <span className="font-display font-bold text-white leading-none
-            text-[2rem] sm:text-[3rem] md:text-[3.8rem]
+          <span className="font-display font-bold text-white leading-none min-w-0
+            text-[1rem] sm:text-[2.2rem] md:text-[3rem] lg:text-[3.8rem]
             transition-all duration-500 group-hover:text-transparent
             group-hover:bg-clip-text group-hover:bg-linear-to-r
             group-hover:from-accent group-hover:via-purple-300 group-hover:to-accent">
             8hannankhan00@gmail.com
           </span>
-          <span className="flex items-center justify-center w-8 h-8 rounded-full
+          <span className="flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-full
             border border-white/10 bg-white/5
             group-hover:bg-accent/15 group-hover:border-accent/40
             transition-all duration-300 shrink-0">
-            <ArrowUpRight size={14} className="text-slate-500 group-hover:text-accent
+            <ArrowUpRight size={13} className="text-slate-500 group-hover:text-accent
               group-hover:translate-x-0.5 group-hover:-translate-y-0.5
               transition-all duration-300" />
           </span>

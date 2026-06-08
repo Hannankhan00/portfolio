@@ -265,7 +265,7 @@ export default function Projects() {
           <div className="proj-animate flex items-center gap-2 mb-12">
             <Asterisk size={15} strokeWidth={2.5} className="text-accent" />
             <span className="text-slate-400 text-xs font-medium tracking-[0.25em] uppercase">
-              Selected Projects
+              Projects
             </span>
           </div>
 

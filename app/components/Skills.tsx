@@ -107,9 +107,9 @@ export default function Skills() {
       <div className="max-w-6xl mx-auto">
 
         {/* * MY STACK */}
-        <div className="slide-up flex items-center gap-2 mb-12">
-          <Asterisk size={15} strokeWidth={2.5} className="text-accent" />
-          <span className="text-slate-400 text-xs font-medium tracking-[0.25em] uppercase">
+        <div className="slide-up flex items-center gap-2 mb-6">
+          <Asterisk size={16} strokeWidth={2.5} className="text-accent" />
+          <span className="text-slate-400 text-sm font-medium tracking-[0.25em] uppercase">
             My Stack
           </span>
         </div>
@@ -120,7 +120,7 @@ export default function Skills() {
 
             {/* Category name — its own slide-up */}
             <div className="slide-up flex items-start overflow-hidden">
-              <h3 className="font-display text-[2.8rem] sm:text-[3.5rem] font-bold text-white uppercase leading-none">
+              <h3 className="font-display text-[3.2rem] sm:text-[4.5rem] font-bold text-white uppercase leading-none">
                 {group.category}
               </h3>
             </div>
