@@ -207,15 +207,18 @@ export default function Projects() {
 
   // Animate IN
   useGSAP(() => {
-    const tl = gsap.timeline({
+    gsap.from(".proj-animate", {
+      y: 50,
+      opacity: 0,
+      duration: 0.7,
+      ease: "power3.out",
+      stagger: 0.12,
       scrollTrigger: {
         trigger: containerRef.current,
-        start: "top 70%",
-        end: "bottom bottom",
-        scrub: 0.5,
+        start: "top 85%",
+        toggleActions: "play none none none",
       },
     });
-    tl.from(".proj-animate", { y: 60, opacity: 0, stagger: 0.18 });
   }, { scope: containerRef });
 
   // Animate OUT
