@@ -20,14 +20,14 @@ export default function Footer() {
 
   useGSAP(() => {
     gsap.from(".footer-el", {
-      y: 40,
+      y: 36,
       opacity: 0,
-      duration: 0.8,
+      duration: 0.75,
       ease: "power3.out",
-      stagger: 0.12,
+      stagger: 0.1,
       scrollTrigger: {
         trigger: containerRef.current,
-        start: "top 88%",
+        start: "top 90%",
         toggleActions: "play none none none",
       },
     });
@@ -37,15 +37,15 @@ export default function Footer() {
     <footer
       ref={containerRef}
       id="contact"
-      className="relative z-10 pt-28 pb-10 px-10 sm:px-16 lg:px-28 xl:px-36 overflow-hidden"
+      className="relative z-10 overflow-hidden pt-24 pb-10 px-10 sm:px-16 lg:px-28 xl:px-36"
     >
-      {/* Top glow line */}
-      <div className="footer-el absolute top-0 left-1/2 -translate-x-1/2 w-[60%] h-px bg-gradient-to-r from-transparent via-accent/50 to-transparent" />
+      {/* Glow line */}
+      <div className="footer-el absolute top-0 left-1/2 -translate-x-1/2 w-[55%] h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
 
       <div className="max-w-6xl mx-auto">
 
-        {/* Availability badge */}
-        <div className="footer-el flex items-center gap-2 mb-10">
+        {/* Availability */}
+        <div className="footer-el flex items-center gap-2 mb-8">
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60" />
             <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
@@ -55,28 +55,29 @@ export default function Footer() {
           </span>
         </div>
 
-        {/* CTA heading */}
-        <p className="footer-el text-slate-500 text-sm sm:text-base font-medium mb-4">
-          Have a project in mind?
-        </p>
+        {/* Main CTA */}
+        <div className="footer-el mb-3">
+          <p className="font-display text-[2.4rem] sm:text-[3.5rem] md:text-[4.5rem] font-bold text-white leading-none">
+            Have a project
+          </p>
+          <p className="font-display text-[2.4rem] sm:text-[3.5rem] md:text-[4.5rem] font-bold text-white/20 leading-none">
+            in mind?
+          </p>
+        </div>
 
-        {/* Email — hero element */}
+        {/* Email link */}
         <a
           href="mailto:8hannankhan00@gmail.com"
-          className="footer-el group inline-flex items-end gap-4 mb-20"
+          className="footer-el group inline-flex items-center gap-3 mt-8 mb-20"
         >
-          <span className="font-display font-bold text-white leading-none
-            text-[2.2rem] sm:text-[3.8rem] md:text-[5rem] lg:text-[6rem]
-            bg-clip-text transition-all duration-500
-            group-hover:text-transparent group-hover:bg-gradient-to-r
-            group-hover:from-accent group-hover:via-purple-300 group-hover:to-accent">
+          <span className="relative text-slate-300 text-base sm:text-lg font-medium tracking-wide
+            after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-accent
+            after:transition-all after:duration-500 group-hover:after:w-full group-hover:text-white transition-colors duration-300">
             8hannankhan00@gmail.com
           </span>
-          <ArrowUpRight
-            className="text-slate-700 group-hover:text-accent transition-all duration-300
-              group-hover:translate-x-1 group-hover:-translate-y-1 shrink-0 mb-2"
-            size={28}
-          />
+          <span className="flex items-center justify-center w-8 h-8 rounded-full border border-white/10 bg-white/5 group-hover:bg-accent/20 group-hover:border-accent/40 transition-all duration-300">
+            <ArrowUpRight size={14} className="text-slate-500 group-hover:text-accent transition-colors duration-300" />
+          </span>
         </a>
 
         {/* Divider */}
@@ -84,9 +85,12 @@ export default function Footer() {
 
         {/* Bottom strip */}
         <div className="footer-el flex flex-col sm:flex-row items-center justify-between gap-5">
-          {/* Logo */}
-          <span className="font-display text-lg font-bold tracking-[0.25em] text-accent">
-            HK
+          {/* Name in cursive */}
+          <span
+            className="text-accent text-2xl sm:text-3xl"
+            style={{ fontFamily: "var(--font-dancing), cursive" }}
+          >
+            Hannan Khan
           </span>
 
           {/* Links */}
