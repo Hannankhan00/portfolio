@@ -28,12 +28,12 @@ const projects: Project[] = [
     url: "https://skillspill.app",
     urlLabel: "skillspill.app",
     description:
-      "A CV-less hiring platform where recruiters discover and hire talent based on verified skills — not resumes. The AI matching engine runs in three layers: semantic NLP embeddings (all-MiniLM-L6-v2), deterministic skill-overlap scoring, and LLM-driven GitHub code-quality analysis via Groq's llama-3.1-70b — composited into a single explainable match score. Talents build verifiable profiles with GitHub integration; recruiters post bounties and receive a ranked shortlist automatically. A social feed called "The Spill" makes skill signals public and discoverable, not locked inside a resume PDF.",
+      "A CV-less hiring platform where recruiters discover and hire talent based on verified skills — not resumes. The AI matching engine runs in three layers: semantic NLP embeddings (all-MiniLM-L6-v2), deterministic skill-overlap scoring, and LLM-driven GitHub code-quality analysis via Groq's llama-3.1-70b — composited into a single explainable match score. Talents build verifiable profiles with GitHub integration; recruiters post bounties and receive a ranked shortlist automatically. A social feed called 'The Spill' makes skill signals public and discoverable, not locked inside a resume PDF.",
     highlights: [
       "Semantic NLP matching with all-MiniLM-L6-v2 — 50% of final score",
       "Verified skill-overlap scoring — 35% of final score",
       "GitHub code quality scored via Groq's llama-3.1-70b — 15% of final score",
-      "Social feed "The Spill" — posts, code blocks, GitHub repo cards, hashtags",
+      "Social feed 'The Spill' — posts, code blocks, GitHub repo cards, hashtags",
       "Real-time notifications & direct messaging via Pusher",
       "Final Year Project — University of Gujrat, Pakistan",
     ],
