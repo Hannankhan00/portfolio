@@ -78,7 +78,10 @@ export default function Footer() {
         <div
           className="absolute inset-0"
           style={{
-            background: `radial-gradient(ellipse 65% 32% at 50% 100%, rgba(220,190,255,0.55) 0%, transparent 50%)`,
+            background: `
+              radial-gradient(ellipse 65% 32% at 50% 100%, rgba(220,190,255,0.55) 0%, transparent 50%),
+              linear-gradient(to bottom, transparent 0%, rgba(147,51,234,0.20) 50%, rgba(168,85,247,0.80) 100%)
+            `,
           }}
         />
 
@@ -100,17 +103,6 @@ export default function Footer() {
           ))}
         </svg>
 
-        {/* Grain texture */}
-        <svg
-          className="absolute inset-0 w-full h-full opacity-[0.18] mix-blend-overlay"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <filter id="footer-noise">
-            <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" />
-            <feColorMatrix type="saturate" values="0" />
-          </filter>
-          <rect width="100%" height="100%" filter="url(#footer-noise)" />
-        </svg>
       </div>
 
       {/* Glow line */}
