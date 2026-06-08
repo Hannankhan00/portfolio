@@ -72,15 +72,34 @@ export default function Footer() {
       <div
         ref={glowRef}
         aria-hidden="true"
-        className="pointer-events-none absolute bottom-0 left-0 right-0 h-[75%]"
-        style={{
-          background:
-            "radial-gradient(ellipse 90% 70% at 50% 100%, rgba(168,85,247,0.28) 0%, rgba(168,85,247,0.10) 40%, transparent 70%)",
-        }}
-      />
+        className="pointer-events-none absolute bottom-0 left-0 right-0"
+        style={{ height: "85vh" }}
+      >
+        {/* Bright inner core */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background: `
+              radial-gradient(ellipse 40% 28% at 50% 100%, rgba(240,220,255,0.45) 0%, transparent 50%),
+              radial-gradient(ellipse 80% 65% at 50% 100%, rgba(168,85,247,0.70) 0%, rgba(147,51,234,0.38) 38%, transparent 65%)
+            `,
+          }}
+        />
+        {/* Grain / noise texture */}
+        <svg
+          className="absolute inset-0 w-full h-full opacity-20 mix-blend-overlay"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <filter id="footer-noise">
+            <feTurbulence type="fractalNoise" baseFrequency="0.68" numOctaves="3" stitchTiles="stitch" />
+            <feColorMatrix type="saturate" values="0" />
+          </filter>
+          <rect width="100%" height="100%" filter="url(#footer-noise)" />
+        </svg>
+      </div>
 
       {/* Glow line */}
-      <div className="footer-el absolute top-0 left-1/2 -translate-x-1/2 w-[55%] h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
+      <div className="footer-el absolute top-0 left-1/2 -translate-x-1/2 w-[55%] h-px bg-linear-to-r from-transparent via-accent/40 to-transparent" />
 
       <div className="max-w-6xl mx-auto">
 
@@ -108,7 +127,7 @@ export default function Footer() {
           <span className="font-display font-bold text-white leading-none
             text-[2rem] sm:text-[3rem] md:text-[3.8rem]
             transition-all duration-500 group-hover:text-transparent
-            group-hover:bg-clip-text group-hover:bg-gradient-to-r
+            group-hover:bg-clip-text group-hover:bg-linear-to-r
             group-hover:from-accent group-hover:via-purple-300 group-hover:to-accent">
             8hannankhan00@gmail.com
           </span>
