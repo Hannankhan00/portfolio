@@ -69,7 +69,12 @@ const projects: Project[] = [
 function ProjectModal({ project, onClose }: { project: Project | null; onClose: () => void }) {
   const overlayRef = useRef<HTMLDivElement>(null);
   const panelRef   = useRef<HTMLDivElement>(null);
-  const lastRef    = useRef<Project | null>(null);
+  const [displayedProject, setDisplayedProject] = useState<Project | null>(null);
+
+  // Derived state: keep the last non-null project so content stays visible during close animation
+  if (project !== null && project !== displayedProject) {
+    setDisplayedProject(project);
+  }
 
   useEffect(() => {
     const overlay = overlayRef.current;
@@ -77,7 +82,6 @@ function ProjectModal({ project, onClose }: { project: Project | null; onClose: 
     if (!overlay || !panel) return;
 
     if (project) {
-      lastRef.current = project;
       document.body.style.overflow = "hidden";
       gsap.set(overlay, { display: "flex" });
       gsap.fromTo(overlay, { opacity: 0 }, { opacity: 1, duration: 0.28, ease: "power2.out" });
@@ -101,7 +105,7 @@ function ProjectModal({ project, onClose }: { project: Project | null; onClose: 
     return () => window.removeEventListener("keydown", handler);
   }, [onClose]);
 
-  const displayed = project ?? lastRef.current;
+  const displayed = displayedProject;
 
   return (
     <div
@@ -116,7 +120,7 @@ function ProjectModal({ project, onClose }: { project: Project | null; onClose: 
       {/* Panel */}
       <div
         ref={panelRef}
-        className="relative z-10 w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-2xl border border-white/10 bg-[#0e0e14] shadow-[0_0_80px_rgba(168,85,247,0.08)]"
+        className="relative z-10 w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-2xl border border-white/10 bg-surface shadow-[0_0_80px_rgba(168,85,247,0.08)]"
       >
         {/* Close */}
         <button
@@ -128,7 +132,7 @@ function ProjectModal({ project, onClose }: { project: Project | null; onClose: 
         </button>
 
         {/* Image */}
-        <div className="w-full h-52 sm:h-64 bg-[#13131c] relative overflow-hidden rounded-t-2xl">
+        <div className="w-full h-52 sm:h-64 bg-surface-2 relative overflow-hidden rounded-t-2xl">
           {displayed?.image ? (
             <Image src={displayed.image} alt={displayed.title ?? ""} fill className="object-cover" />
           ) : (
@@ -142,7 +146,7 @@ function ProjectModal({ project, onClose }: { project: Project | null; onClose: 
             </div>
           )}
           {/* fade to panel bg */}
-          <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#0e0e14] to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 h-20 bg-linear-to-t from-surface to-transparent" />
         </div>
 
         {/* Content */}
@@ -185,7 +189,7 @@ function ProjectModal({ project, onClose }: { project: Project | null; onClose: 
               <ul className="space-y-2.5">
                 {displayed.highlights.map((h, i) => (
                   <li key={i} className="flex items-start gap-3 text-slate-400 text-sm leading-snug">
-                    <span className="mt-[6px] w-1 h-1 rounded-full bg-accent shrink-0" />
+                    <span className="mt-1.5 w-1 h-1 rounded-full bg-accent shrink-0" />
                     {h}
                   </li>
                 ))}
@@ -203,7 +207,7 @@ function ProjectModal({ project, onClose }: { project: Project | null; onClose: 
                 {displayed.tech.map((t) => (
                   <span
                     key={t}
-                    className="text-xs text-slate-300 bg-[#13131c] border border-white/8 px-3 py-1 rounded-full"
+                    className="text-xs text-slate-300 bg-surface-2 border border-white/8 px-3 py-1 rounded-full"
                   >
                     {t}
                   </span>
