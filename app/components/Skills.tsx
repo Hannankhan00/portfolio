@@ -60,7 +60,7 @@ const groups: { category: string; skills: Skill[] }[] = [
 
 function SkillItem({ name, icon: Icon, color }: Skill) {
   return (
-    <div className="flex items-center gap-5 group">
+    <div className="slide-up flex items-center gap-5 group">
       <Icon
         size={40}
         color={color}
@@ -116,23 +116,19 @@ export default function Skills() {
 
         {/* Skill groups */}
         {groups.map((group) => (
-          <div key={group.category} className="grid grid-cols-1 sm:grid-cols-[260px_1fr] gap-y-8 sm:gap-x-16 sm:gap-y-0 py-12">
+          <div key={group.category} className="py-10">
 
-            {/* Category name — its own slide-up */}
-            <div className="slide-up flex items-start overflow-hidden">
-              <h3 className="font-display text-[3.2rem] sm:text-[4.5rem] font-bold text-white uppercase leading-none">
+            {/* Category name — full row, no side-by-side collision */}
+            <div className="slide-up mb-14">
+              <h3 className="font-display text-[3rem] sm:text-[4.5rem] lg:text-[5.5rem] font-bold text-white uppercase leading-none">
                 {group.category}
               </h3>
             </div>
 
-            {/* Skills — each row of 3 is its own slide-up */}
-            <div className="flex flex-col gap-6 content-start">
-              {chunk(group.skills, 3).map((row, ri) => (
-                <div key={ri} className="slide-up flex gap-x-8 gap-y-4 flex-wrap sm:gap-x-10">
-                  {row.map((skill) => (
-                    <SkillItem key={skill.name} {...skill} />
-                  ))}
-                </div>
+            {/* Skills grid below the title */}
+            <div className="flex flex-wrap gap-x-10 gap-y-5 pl-1">
+              {group.skills.map((skill) => (
+                <SkillItem key={skill.name} {...skill} />
               ))}
             </div>
 

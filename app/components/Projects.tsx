@@ -229,18 +229,22 @@ export default function Projects() {
 
   // Animate IN
   useGSAP(() => {
-    gsap.from(".proj-animate", {
-      y: 50,
-      opacity: 0,
-      duration: 0.7,
-      ease: "power3.out",
-      stagger: 0.12,
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: "top 85%",
-        toggleActions: "play none none none",
-      },
-    });
+    gsap.fromTo(
+      ".proj-animate",
+      { y: 60, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.8,
+        ease: "power3.out",
+        stagger: 0.15,
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top 80%",
+          once: true,
+        },
+      }
+    );
   }, { scope: containerRef });
 
   // Animate OUT
@@ -279,7 +283,7 @@ export default function Projects() {
               <button
                 key={project.id}
                 onClick={() => setSelected(project)}
-                className="proj-animate w-full text-left group border-t border-white/8 py-7 sm:py-10 flex items-center gap-6 sm:gap-10 last:border-b hover:pl-3 transition-all duration-300"
+                className="proj-animate w-full text-left group py-7 sm:py-10 flex items-center gap-6 sm:gap-10 hover:pl-3 transition-all duration-300"
               >
                 {/* Number */}
                 <span className="font-display text-slate-600 text-sm font-bold shrink-0 tabular-nums group-hover:text-accent transition-colors duration-200">

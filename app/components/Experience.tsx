@@ -68,8 +68,8 @@ export default function Experience() {
         </div>
 
         {/* Experience entries */}
-        {experiences.map((exp) => (
-          <div key={exp.company} className="experience-item py-6 sm:py-10">
+        {experiences.map((exp, index) => (
+          <div key={`${exp.company}-${exp.role}-${index}`} className="experience-item py-6 sm:py-10">
             <p className="text-slate-500 text-xs sm:text-sm mb-1">{exp.company}</p>
             <h3 className="font-display text-[1.75rem] sm:text-[3rem] md:text-[3.6rem] font-bold text-white leading-tight sm:leading-none mb-2 sm:mb-3">
               {exp.role}
