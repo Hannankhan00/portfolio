@@ -116,7 +116,7 @@ export default function Skills() {
 
         {/* Skill groups */}
         {groups.map((group) => (
-          <div key={group.category} className="grid grid-cols-1 sm:grid-cols-[310px_1fr] gap-y-8 sm:gap-x-16 sm:gap-y-0 py-12">
+          <div key={group.category} className="grid grid-cols-1 sm:grid-cols-[260px_1fr] gap-y-8 sm:gap-x-16 sm:gap-y-0 py-12">
 
             {/* Category name — its own slide-up */}
             <div className="slide-up flex items-start overflow-hidden">
@@ -128,7 +128,7 @@ export default function Skills() {
             {/* Skills — each row of 3 is its own slide-up */}
             <div className="flex flex-col gap-6 content-start">
               {chunk(group.skills, 3).map((row, ri) => (
-                <div key={ri} className="slide-up flex gap-x-8 gap-y-4 flex-wrap">
+                <div key={ri} className="slide-up flex gap-x-8 gap-y-4 flex-wrap sm:gap-x-10">
                   {row.map((skill) => (
                     <SkillItem key={skill.name} {...skill} />
                   ))}
