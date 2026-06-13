@@ -5,13 +5,13 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import MagneticButton from "./MagneticButton";
 import ScrollArrow from "./ScrollArrow";
+import HangingCard from "./HangingCard";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 export default function Hero() {
   const containerRef = useRef<HTMLElement>(null);
 
-  // Slide content up and fade out as you scroll away (Banner.tsx pattern)
   useGSAP(() => {
     const tl = gsap.timeline({
       scrollTrigger: {
@@ -25,10 +25,22 @@ export default function Hero() {
   }, { scope: containerRef });
 
   return (
-    <section ref={containerRef} className="relative min-h-screen flex items-center z-10">
+    /*
+     * position: relative so HangingCard (position:absolute) anchors here.
+     * The card scrolls away with this section — not fixed to viewport.
+     */
+    <section
+      ref={containerRef}
+      className="relative min-h-screen flex items-center z-10"
+    >
       <ScrollArrow />
-      <div className="w-full px-10 sm:px-16 lg:px-28 xl:px-36 py-28">
-        <div className="max-w-4xl">
+
+      {/* Hanging card — absolutely positioned in the right half */}
+      <HangingCard />
+
+      {/* Hero text — sits above the canvas layer (z-index:10 > canvas z-index:4) */}
+      <div className="relative z-10 w-full px-10 sm:px-16 lg:px-28 xl:px-36 py-28">
+        <div className="max-w-xl">
 
           <p className="text-accent text-sm tracking-[0.25em] uppercase font-medium hero-el hero-el-1">
             Full Stack Developer
@@ -40,7 +52,7 @@ export default function Hero() {
             <span className="text-white">Khan</span>
           </h1>
 
-          <p className="text-slate-400 sm:text-lg mt-4 mb-10 max-w-[40ch] leading-relaxed hero-el hero-el-3">
+          <p className="text-slate-400 sm:text-lg mt-4 mb-10 max-w-[38ch] leading-relaxed hero-el hero-el-3">
             Building performant, scalable web applications from polished
             frontends to robust backends.
           </p>

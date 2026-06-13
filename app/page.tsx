@@ -40,8 +40,8 @@ export default function Home() {
         <div className="w-px h-14 bg-linear-to-b from-accent/30 to-transparent" />
       </div>
 
-      {/* Fixed right sidebar: stats */}
-      <div className="hidden lg:flex flex-col items-end gap-10 z-20" style={{ position: 'fixed', right: '2rem', top: '62%', transform: 'translateY(-50%)' }}>
+      {/* Fixed right sidebar: stats — shown below hero area to not conflict with card */}
+      <div className="hidden lg:flex flex-col items-end gap-10 z-20" style={{ position: 'fixed', right: '2rem', bottom: '3rem' }}>
         {stats.map(({ value, label }) => (
           <div key={value} className="text-right">
             <p className="font-display text-4xl font-bold text-accent leading-none">

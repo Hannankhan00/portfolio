@@ -56,6 +56,7 @@ body {
 .hero-el-2 { animation-delay: 0.35s; }
 .hero-el-3 { animation-delay: 0.55s; }
 .hero-el-4 { animation-delay: 0.75s; }
+.hero-el-5 { animation-delay: 0.4s; }
 
 /* ── Menu pop animations ── */
 @keyframes menuPopIn {
