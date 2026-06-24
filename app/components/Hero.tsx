@@ -5,7 +5,10 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import MagneticButton from "./MagneticButton";
 import ScrollArrow from "./ScrollArrow";
-import HangingCard from "./HangingCard";
+import dynamic from "next/dynamic";
+
+// Lanyard uses WebGL — load client-side only (no SSR)
+const Lanyard = dynamic(() => import("./Lanyard"), { ssr: false });
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -26,8 +29,8 @@ export default function Hero() {
 
   return (
     /*
-     * position: relative so HangingCard (position:absolute) anchors here.
-     * The card scrolls away with this section — not fixed to viewport.
+     * position: relative so Lanyard (position:absolute) anchors here.
+     * The lanyard scrolls away with this section — not fixed to viewport.
      */
     <section
       ref={containerRef}
@@ -35,12 +38,34 @@ export default function Hero() {
     >
       <ScrollArrow />
 
-      {/* Hanging card — absolutely positioned in the right half */}
-      <HangingCard />
+      {/* Lanyard — covers the full hero so the card can be dragged anywhere
+           without hitting a CSS clip boundary. The canvas is transparent, so
+           the left text area is unaffected visually. Pointer events still
+           reach the text buttons because the text content div (max-w-xl) is
+           at z-10, above this container's z-4, and has pointer-events:auto. */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          zIndex: 4,
+          pointerEvents: "auto",
+        }}
+      >
+        <Lanyard
+          position={[0, 0, 20]}
+          gravity={[0, -40, 0]}
+          fov={20}
+          transparent={true}
+        />
+      </div>
 
-      {/* Hero text — sits above the canvas layer (z-index:10 > canvas z-index:4) */}
-      <div className="relative z-10 w-full px-10 sm:px-16 lg:px-28 xl:px-36 py-28">
-        <div className="max-w-xl">
+      {/* Hero text — pointer-events:none on the full-width wrapper so the
+           transparent right half doesn't block lanyard drag events (the canvas
+           is at z-index 4, this wrapper is z-10 and spans 100% width).
+           pointer-events:auto is restored on the inner content div so the
+           button/text remain fully interactive. */}
+      <div className="relative z-10 w-full px-10 sm:px-16 lg:px-28 xl:px-36 py-28" style={{ pointerEvents: "none" }}>
+        <div className="max-w-xl" style={{ pointerEvents: "auto" }}>
 
           <p className="text-accent text-sm tracking-[0.25em] uppercase font-medium hero-el hero-el-1">
             Full Stack Developer
