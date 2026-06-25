@@ -56,6 +56,8 @@ export default function Hero() {
           gravity={[0, -40, 0]}
           fov={20}
           transparent={true}
+          frontImage="/assets/profile.png"
+          imageFit="cover"
         />
       </div>
 

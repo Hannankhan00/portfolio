@@ -197,27 +197,87 @@ function Band({
       const ry = rect.y * H;
       const rw = rect.w * W;
       const rh = rect.h * H;
+
+      ctx.save();
+
+      // Draw white background for the whole face to act as a border
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(rx, ry, rw, rh);
+
+      // Define padding for the white border (now much thinner: 1.5% of width)
+      const border = rw * 0.06;
+
+      const innerRx = rx + border;
+      const innerRy = ry + border;
+      const innerRw = rw - border * 2;
+      const innerRh = rh - border * 2;
+
+      // The UV mapping slightly stretches the image horizontally. 
+      // We apply a correction factor to un-stretch it.
+      const widthCorrection = 0.9;
+
       const pick = imageFit === 'contain' ? Math.min : Math.max;
-      const scale = pick(rw / img.width, rh / img.height);
+      const scale = pick((innerRw * widthCorrection) / img.width, innerRh / img.height);
+
       const dw = img.width * scale;
       const dh = img.height * scale;
-      const dx = rx + (rw - dw) / 2;
-      const dy = ry + (rh - dh) / 2;
-      ctx.save();
+
+      // Center the image
+      const dx = innerRx + (innerRw - dw) / 2;
+      const dy = innerRy + (innerRh - dh) / 2;
+
       ctx.beginPath();
-      ctx.rect(rx, ry, rw, rh);
+      const borderRadius = innerRw * 0.05; // Adjust this value to change roundness
+      ctx.roundRect(innerRx, innerRy, innerRw, innerRh, borderRadius);
       ctx.clip();
       ctx.drawImage(img, dx, dy, dw, dh);
       ctx.restore();
     };
 
-    if (frontImage && frontTex.image) drawFitted(frontTex.image as HTMLImageElement, FRONT_UV_RECT);
-    if (backImage && backTex.image) drawFitted(backTex.image as HTMLImageElement, BACK_UV_RECT);
-
     const composite = new THREE.CanvasTexture(canvas);
     composite.colorSpace = THREE.SRGBColorSpace;
     composite.flipY = baseMap.flipY;
     composite.anisotropy = 16;
+
+    if (frontImage && frontTex.image) drawFitted(frontTex.image as HTMLImageElement, FRONT_UV_RECT);
+    if (backImage && backTex.image) {
+      drawFitted(backTex.image as HTMLImageElement, BACK_UV_RECT);
+    } else {
+      // Draw white card back with QR code
+      const bx = BACK_UV_RECT.x * W;
+      const by = BACK_UV_RECT.y * H;
+      const bw = BACK_UV_RECT.w * W;
+      const bh = BACK_UV_RECT.h * H;
+
+      ctx.save();
+      // White Background
+      ctx.fillStyle = '#ffffff'; 
+      ctx.fillRect(bx, by, bw, bh);
+
+      // Punchy line below QR
+      ctx.fillStyle = '#0f172a'; // slate-900
+      ctx.font = `bold ${bw * 0.08}px sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.fillText("HANNAN KHAN", bx + bw / 2, by + bh * 0.75);
+
+      ctx.fillStyle = '#64748b'; // slate-500
+      ctx.font = `${bw * 0.045}px sans-serif`;
+      ctx.fillText("Full Stack Developer", bx + bw / 2, by + bh * 0.82);
+
+      ctx.restore();
+
+      // Load QR code asynchronously and draw
+      const qrImg = new window.Image();
+      qrImg.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEAAQMAAABmvDolAAAABlBMVEX///8AAABVwtN+AAAACXBIWXMAAA7EAAAOxAGVKw4bAAABeElEQVRoge2YMbKDMAxE9ScFJUfIUTgaORpH4QiUFAyKvLZMyAAxfMpVkcHyS7OgtSyRX9FqCqy0q2aR5/jn2ZlAMdBjp1JpQFUhbUCHdE3gBBBS9mMrewh5+48BWBG4AjQ6iX+mBP4DxPK3vVcofwLngVz+wyNSUeoNfyBwCPjhE4FmTFKnIHAfsA47rsRfz2YQ2AWi1DAJ6A1xrZmKwg8EigG0ny+IWk/ZaQVANAkCZUDrKltMlg8fbe5IG50JFANhJ0mtSf3Q4Hf1ROAUkO5F6h0pPmEAGvsoAncBbdwOjuAPEv0BDawQKAb6KskZHWFMKZGHuoEQKAd62EJq/iG1ZAMhUAyoB6725rvPvBq+T38Cu8ASS+ekLvU6CBwCreuMIwkHVB6SLO0BgTuAHoqnGalf7T/fBYFS4GtGuoqBwBUA/lDlJjXPngmcBVD+drXXPnnvxmCfwAHg5Z9HoFAYZrAxjiawC3ilJ0D1Y/i0NW0mcBX4FW/GCFC785MjoQAAAABJRU5ErkJggg==";
+      qrImg.onload = () => {
+        const qrSize = bw * 0.5;
+        const qrX = bx + (bw - qrSize) / 2;
+        const qrY = by + bh * 0.2;
+        ctx.drawImage(qrImg, qrX, qrY, qrSize, qrSize);
+        composite.needsUpdate = true;
+      };
+    }
+
     composite.needsUpdate = true;
     return composite;
   }, [frontImage, backImage, imageFit, frontTex, backTex, materials.base.map]);
