@@ -43,7 +43,7 @@ const projects: Project[] = [
       "Azure Blob Storage", "Pusher", "Tailwind CSS 4",
       "JWT", "GitHub OAuth", "Zod",
     ],
-    image: null, // /assets/skillspill.png — upload to public/assets/
+    image: "/assets/skillspill.png",
   },
   {
     id: 2,
@@ -61,14 +61,47 @@ const projects: Project[] = [
       "Modular architecture allowing new service pages and features",
     ],
     tech: ["Next.js", "Node.js", "Tailwind CSS", "Framer Motion"],
-    image: null, // /assets/compactpersonnel.png — upload to public/assets/
+    image: "/assets/compactpersonnel.png",
+  },
+  {
+    id: 3,
+    title: "GoTripJapan",
+    subtitle: "Travel booking platform",
+    url: "https://gotripjapan.com",
+    urlLabel: "gotripjapan.com",
+    description:
+      "A comprehensive travel booking platform for Japan featuring full booking functionality, seamless PayPal integration for secure payments, and reliable cloud storage for managing user and booking data.",
+    highlights: [
+      "Full booking and reservation system",
+      "Secure payment processing via PayPal integration",
+      "Cloud storage integration for user and booking data",
+    ],
+    tech: ["Next.js", "Node.js", "MySQL", "Tailwind CSS"],
+    image: "/assets/gotripjapan.png",
+  },
+  {
+    id: 4,
+    title: "4Atek",
+    subtitle: "Software house platform & custom CMS",
+    url: "https://fouratek.com",
+    urlLabel: "fouratek.com",
+    description:
+      "A complete website and custom-built CMS for 4Atek, a software house. The platform features a beautiful welcome animation powered by Framer Motion, alongside a fully integrated client management system and a robust internal hiring system.",
+    highlights: [
+      "Custom-built CMS for full content control",
+      "Integrated Client Management System",
+      "Built-in Hiring and Applicant Tracking System",
+      "Framer Motion welcome animations",
+    ],
+    tech: ["Next.js", "Node.js", "MySQL", "Framer Motion"],
+    image: "/assets/fouratek.png",
   },
 ];
 
 /* ── Modal ── */
 function ProjectModal({ project, onClose }: { project: Project | null; onClose: () => void }) {
   const overlayRef = useRef<HTMLDivElement>(null);
-  const panelRef   = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
   const [displayedProject, setDisplayedProject] = useState<Project | null>(null);
 
   // Derived state: keep the last non-null project so content stays visible during close animation
@@ -78,7 +111,7 @@ function ProjectModal({ project, onClose }: { project: Project | null; onClose: 
 
   useEffect(() => {
     const overlay = overlayRef.current;
-    const panel   = panelRef.current;
+    const panel = panelRef.current;
     if (!overlay || !panel) return;
 
     if (project) {
@@ -91,7 +124,7 @@ function ProjectModal({ project, onClose }: { project: Project | null; onClose: 
       );
     } else {
       document.body.style.overflow = "";
-      gsap.to(panel,   { y: 28, opacity: 0, scale: 0.97, duration: 0.2,  ease: "power2.in" });
+      gsap.to(panel, { y: 28, opacity: 0, scale: 0.97, duration: 0.2, ease: "power2.in" });
       gsap.to(overlay, {
         opacity: 0, duration: 0.26, ease: "power2.in", delay: 0.09,
         onComplete: () => gsap.set(overlay, { display: "none" }),
@@ -132,7 +165,7 @@ function ProjectModal({ project, onClose }: { project: Project | null; onClose: 
         </button>
 
         {/* Image */}
-        <div className="w-full h-52 sm:h-64 bg-surface-2 relative overflow-hidden rounded-t-2xl">
+        <div className="w-full aspect-video bg-surface-2 relative overflow-hidden rounded-t-2xl">
           {displayed?.image ? (
             <Image src={displayed.image} alt={displayed.title ?? ""} fill className="object-cover" />
           ) : (

@@ -167,7 +167,7 @@ function Band({
 
   const segmentProps = {
     type: 'dynamic' as const,
-    canSleep: true,
+    canSleep: false,
     colliders: false as const,
     angularDamping: 4,
     linearDamping: 4,
@@ -373,17 +373,17 @@ function Band({
        */}
       <group position={[3, 4, 0]}>
         <RigidBody ref={fixed} {...segmentProps} type="fixed" />
-        <RigidBody position={[0, -1, 0]} ref={j1} {...segmentProps}>
+        <RigidBody position={[0, -0.25, 0]} ref={j1} {...segmentProps}>
           <BallCollider args={[0.1]} />
         </RigidBody>
-        <RigidBody position={[0, -2, 0]} ref={j2} {...segmentProps}>
+        <RigidBody position={[0, -0.5, 0]} ref={j2} {...segmentProps}>
           <BallCollider args={[0.1]} />
         </RigidBody>
-        <RigidBody position={[0, -3, 0]} ref={j3} {...segmentProps}>
+        <RigidBody position={[0, -0.75, 0]} ref={j3} {...segmentProps}>
           <BallCollider args={[0.1]} />
         </RigidBody>
         <RigidBody
-          position={[0, -4.5, 0]}
+          position={[0, -2.25, 0]}
           ref={card}
           {...segmentProps}
           type={dragged ? 'kinematicPosition' : 'dynamic'}
