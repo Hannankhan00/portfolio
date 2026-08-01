@@ -167,7 +167,7 @@ function ProjectModal({ project, onClose }: { project: Project | null; onClose: 
         {/* Image */}
         <div className="w-full aspect-video bg-surface-2 relative overflow-hidden rounded-t-2xl">
           {displayed?.image ? (
-            <Image src={displayed.image} alt={displayed.title ?? ""} fill className="object-cover" />
+            <Image src={displayed.image} alt={displayed.title ?? ""} fill sizes="(max-width: 768px) 100vw, 768px" className="object-cover" />
           ) : (
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-2">
               <div className="w-12 h-12 rounded-xl border border-white/8 bg-white/5 flex items-center justify-center">
@@ -260,34 +260,27 @@ export default function Projects() {
   const [selected, setSelected] = useState<Project | null>(null);
   const closeModal = useCallback(() => setSelected(null), []);
 
-  // Animate IN
+  // Animate IN — each item scrubs up individually (matches Skills section)
   useGSAP(() => {
-    gsap.fromTo(
-      ".proj-animate",
-      { y: 60, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 0.8,
-        ease: "power3.out",
-        stagger: 0.15,
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top 80%",
-          once: true,
-        },
-      }
-    );
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: containerRef.current,
+        start: "top 80%",
+        end: "bottom 80%",
+        scrub: 0.5,
+      },
+    });
+    tl.from(".proj-animate", { opacity: 0, y: 40, ease: "none", stagger: 0.25 });
   }, { scope: containerRef });
 
-  // Animate OUT
+  // Animate OUT — whole section slides up and fades (matches Skills section)
   useGSAP(() => {
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: containerRef.current,
         start: "bottom 50%",
         end: "bottom 10%",
-        scrub: 0.5,
+        scrub: 1,
       },
     });
     tl.to(containerRef.current, { y: -150, opacity: 0 });

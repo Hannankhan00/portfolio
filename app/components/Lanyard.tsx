@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unknown-property */
 'use client';
-import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
+import { Component, Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { Canvas, extend, useFrame } from '@react-three/fiber';
 import { useGLTF, useTexture, Environment, Lightformer } from '@react-three/drei';
 import {
@@ -58,20 +58,68 @@ interface BandProps {
   lanyardWidth?: number;
 }
 
-export default function Lanyard({
-  position = [0, 0, 30],
-  gravity = [0, -40, 0],
+// ── WebGL availability check ──────────────────────────────────────────────────
+// Before mounting a Canvas (which immediately tries to acquire a WebGL context)
+// we probe whether WebGL is actually available. If Chrome has blocked context
+// creation ("Web page caused context loss and was blocked") this returns false
+// and we skip the Canvas entirely — no crash loop.
+function canUseWebGL(): boolean {
+  if (typeof document === 'undefined') return false;
+  try {
+    const canvas = document.createElement('canvas');
+    const ctx =
+      canvas.getContext('webgl2') ??
+      canvas.getContext('webgl') ??
+      canvas.getContext('experimental-webgl');
+    if (!ctx) return false;
+    // Force-lose and immediately restore so the probe canvas doesn't consume
+    // a context slot permanently.
+    const ext = (ctx as WebGLRenderingContext).getExtension('WEBGL_lose_context');
+    ext?.loseContext();
+    ext?.restoreContext();
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+// ── Error boundary ────────────────────────────────────────────────────────────
+// Catches the synchronous "Error creating WebGL context" thrown by r3f/THREE
+// and renders null instead of crashing the entire page.
+class LanyardErrorBoundary extends Component<
+  { children: React.ReactNode },
+  { failed: boolean }
+> {
+  constructor(props: { children: React.ReactNode }) {
+    super(props);
+    this.state = { failed: false };
+  }
+  static getDerivedStateFromError() {
+    return { failed: true };
+  }
+  render() {
+    if (this.state.failed) return null;
+    return this.props.children;
+  }
+}
+
+function LanyardInner({
+  position = [0, 0, 30] as [number, number, number],
+  gravity = [0, -40, 0] as [number, number, number],
   fov = 20,
   transparent = true,
-  frontImage = null,
-  backImage = null,
-  imageFit = 'cover',
-  lanyardImage = null,
+  frontImage = null as string | null,
+  backImage = null as string | null,
+  imageFit = 'cover' as 'cover' | 'contain',
+  lanyardImage = null as string | null,
   lanyardWidth = 0.7,
 }: LanyardProps) {
   const [isMobile, setIsMobile] = useState(
     () => typeof window !== 'undefined' && window.innerWidth < 768
   );
+  // Hold a reference to the WebGL renderer so we can dispose it on unmount
+  // and prevent the browser's simultaneous-context limit from being hit.
+  const glRef = useRef<THREE.WebGLRenderer | null>(null);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
@@ -79,15 +127,36 @@ export default function Lanyard({
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // Dispose the WebGL renderer when the component unmounts so the context
+  // slot is freed immediately and the next mount can reuse it cleanly.
+  useEffect(() => {
+    return () => {
+      if (glRef.current) {
+        glRef.current.dispose();
+        glRef.current = null;
+      }
+    };
+  }, []);
+
   return (
     <div className="lanyard-wrapper">
       <Canvas
         camera={{ position: position, fov: fov }}
         dpr={[1, isMobile ? 1.5 : 2]}
-        gl={{ alpha: transparent }}
-        onCreated={({ gl }) =>
-          gl.setClearColor(new THREE.Color(0x000000), transparent ? 0 : 1)
-        }
+        gl={{
+          alpha: transparent,
+          antialias: false,              // saves one context attachment
+          powerPreference: 'high-performance',
+          failIfMajorPerformanceCaveat: false, // allow software fallback
+        }}
+        onCreated={({ gl }) => {
+          gl.setClearColor(new THREE.Color(0x000000), transparent ? 0 : 1);
+          glRef.current = gl;
+          // Prevent the browser permanently blocking new contexts after a loss
+          const canvas = gl.domElement;
+          const handleContextLost = (e: Event) => e.preventDefault();
+          canvas.addEventListener('webglcontextlost', handleContextLost);
+        }}
       >
         <ambientLight intensity={Math.PI} />
         {/*
@@ -141,6 +210,30 @@ export default function Lanyard({
     </div>
   );
 }
+
+// ── Public export ─────────────────────────────────────────────────────────────
+// Guards against a blocked/unavailable WebGL context before mounting the heavy
+// Canvas + physics scene, and wraps it in an error boundary so any remaining
+// synchronous throws are silently caught instead of crashing the page.
+export default function Lanyard(props: LanyardProps) {
+  const [webglOk, setWebglOk] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    setWebglOk(canUseWebGL());
+  }, []);
+
+  // Still probing — render nothing yet (avoids SSR mismatch)
+  if (webglOk === null) return null;
+  // WebGL not available / blocked — render nothing gracefully
+  if (!webglOk) return null;
+
+  return (
+    <LanyardErrorBoundary>
+      <LanyardInner {...props} />
+    </LanyardErrorBoundary>
+  );
+}
+
 
 function Band({
   maxSpeed = 50,

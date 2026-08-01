@@ -15,40 +15,34 @@ const experiences = [
   },
   {
     company: "Inhancers",
-    role: "WordPress Developer",
-    period: "Nov 2023 – May 2024",
-  },
-  {
-    company: "Inhancers",
     role: "Graphic Designer",
-    period: "May 2023 – Oct 2023",
+    period: "May 2023 – Jun 2024",
   },
 ];
 
 export default function Experience() {
   const containerRef = useRef<HTMLElement>(null);
 
-  // Animate IN
+  // Animate IN — each item scrubs up individually (matches Skills section)
   useGSAP(() => {
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: containerRef.current,
-        start: "top 60%",
-        end: "bottom 50%",
-        toggleActions: "restart none none reverse",
-        scrub: 1,
+        start: "top 80%",
+        end: "bottom 80%",
+        scrub: 0.5,
       },
     });
-    tl.from(".experience-item", { y: 50, opacity: 0, stagger: 0.3 });
+    tl.from(".experience-item", { opacity: 0, y: 40, ease: "none", stagger: 0.25 });
   }, { scope: containerRef });
 
-  // Animate OUT
+  // Animate OUT — whole section slides up and fades (matches Skills section)
   useGSAP(() => {
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: containerRef.current,
         start: "bottom 50%",
-        end: "bottom 20%",
+        end: "bottom 10%",
         scrub: 1,
       },
     });

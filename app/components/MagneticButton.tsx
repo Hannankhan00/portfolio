@@ -83,6 +83,8 @@ export default function MagneticButton({ href }: Props) {
     <a
       ref={btnRef}
       href={href}
+      target="_blank"
+      rel="noopener noreferrer"
       className="group relative inline-flex items-center gap-3 px-9 py-4 rounded-full border border-accent/25 text-white text-sm font-bold tracking-[0.12em] uppercase overflow-hidden transition-[border-color,box-shadow] duration-300 mag-active:border-accent/60"
       style={{ willChange: "transform", background: "rgba(168,85,247,0.06)" }}
     >
