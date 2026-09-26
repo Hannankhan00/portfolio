@@ -8,6 +8,7 @@ import Skills from "./components/Skills";
 import Experience from "./components/Experience";
 import Projects from "./components/Projects";
 import Footer from "./components/Footer";
+import ContactModal from "./components/ContactModal";
 
 const stats = [
   { value: "2+", label: "Years of\nExperience" },
@@ -63,6 +64,7 @@ export default function Home() {
         <div className="h-24 sm:h-36" />
       </main>
       <Footer />
+      <ContactModal />
     </>
   );
 }

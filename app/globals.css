@@ -20,21 +20,36 @@ body {
   font-family: var(--font-space-grotesk), system-ui, sans-serif;
 }
 
-/* Hide native cursor only on md+ where custom cursor is active */
+/* Hide native cursor only on md+ where custom cursor is active (exempt admin CRM) */
 @media (min-width: 768px) {
-  html,
-  body,
-  *,
-  a,
-  button,
-  input,
-  textarea,
-  select,
-  label,
-  [role="button"] {
+  html:not(:has(.admin-root)),
+  body:not(:has(.admin-root)),
+  body:not(:has(.admin-root)) *:not(.admin-root *) {
     cursor: none !important;
   }
+
+  .admin-root,
+  .admin-root *,
+  .admin-root button,
+  .admin-root a,
+  .admin-root input,
+  .admin-root textarea,
+  .admin-root select,
+  .admin-root label {
+    cursor: auto !important;
+  }
+
+  .admin-root button,
+  .admin-root a,
+  .admin-root [role="button"],
+  .admin-root input[type="submit"],
+  .admin-root input[type="button"],
+  .admin-root input[type="checkbox"],
+  .admin-root select {
+    cursor: pointer !important;
+  }
 }
+
 
 /* ── Hero entrance animations ── */
 @keyframes heroFadeUp {
@@ -72,11 +87,28 @@ body {
 .menu-pop-out { animation: menuPopOut 0.22s ease-in forwards; }
 
 
-/* ── Hide native scrollbar ── */
+/* ── Custom sleek scrollbar ── */
 ::-webkit-scrollbar {
-  display: none;
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: #080808;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.16);
+  border-radius: 9999px;
+  border: 1.5px solid #080808;
+  transition: background 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(168, 85, 247, 0.7);
 }
 
 html {
-  scrollbar-width: none;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.18) #080808;
 }

@@ -1,6 +1,8 @@
 "use client";
 import { useRef } from "react";
+import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+import { openContactModal } from "./ContactModal";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -115,10 +117,11 @@ export default function Footer() {
           Have a project in mind?
         </p>
 
-        {/* Email — hero */}
-        <a
-          href="mailto:8hannankhan00@gmail.com"
-          className="footer-el group flex items-center justify-center gap-2 sm:gap-3 mb-14 sm:mb-20 min-w-0"
+        {/* Email — hero CTA */}
+        <button
+          type="button"
+          onClick={openContactModal}
+          className="footer-el group flex items-center justify-center gap-2 sm:gap-3 mb-14 sm:mb-20 min-w-0 mx-auto cursor-pointer"
         >
           <span className="font-display font-bold text-white leading-none min-w-0
             text-[1rem] sm:text-[2.2rem] md:text-[3rem] lg:text-[3.8rem]
@@ -135,7 +138,7 @@ export default function Footer() {
               group-hover:translate-x-0.5 group-hover:-translate-y-0.5
               transition-all duration-300" />
           </span>
-        </a>
+        </button>
 
         {/* Divider */}
         <div className="footer-el w-full h-px bg-white/6 mb-8" />
@@ -177,11 +180,17 @@ export default function Footer() {
             </a>
           </div>
 
-          {/* Copyright */}
-          <p className="text-slate-600 text-xs">
-            &copy; {new Date().getFullYear()} Hannan Khan
-          </p>
-
+          {/* Copyright and Admin */}
+          <div className="flex items-center gap-4 text-xs text-slate-600">
+            <p>&copy; {new Date().getFullYear()} Hannan Khan</p>
+            <span>&bull;</span>
+            <Link
+              href="/admin"
+              className="hover:text-slate-400 transition-colors"
+            >
+              Admin
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

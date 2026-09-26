@@ -1,77 +1,141 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function CustomCursor() {
   const cursorRef = useRef<HTMLDivElement>(null);
+  const innerRef = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const el = cursorRef.current;
-    if (!el) return;
+    // Only run on desktop screens (md+)
+    if (typeof window === "undefined" || window.innerWidth < 768) return;
 
-    let tx = -200, ty = -200;
-    let lastX = -200, lastY = -200;
-    let scale = 1;
-    let raf: number;
+    const cursor = cursorRef.current;
+    const inner = innerRef.current;
+    if (!cursor || !inner) return;
 
-    const onMove = (e: MouseEvent) => {
-      tx = e.clientX;
-      ty = e.clientY;
-      el.style.opacity = "1";
+    let isHovered = false;
+    let isPressed = false;
+    let isText = false;
+
+    const updateState = () => {
+      let scale = 1;
+      let opacity = 1;
+
+      if (isText) {
+        opacity = 0;
+      } else if (isPressed) {
+        scale = 0.7;
+      } else if (isHovered) {
+        scale = 2.8;
+      }
+
+      inner.style.transform = `scale(${scale})`;
+      inner.style.opacity = opacity.toString();
     };
 
-    const onLeave = () => { el.style.opacity = "0"; };
-    const onEnter = () => { el.style.opacity = "1"; };
+    const onMouseMove = (e: MouseEvent) => {
+      // Don't render custom cursor on admin routes
+      if (
+        document.body.classList.contains("admin-root") ||
+        document.querySelector(".admin-root") ||
+        window.location.pathname.startsWith("/admin")
+      ) {
+        cursor.style.opacity = "0";
+        return;
+      }
 
-    const tick = () => {
-      const dx = tx - lastX;
-      const dy = ty - lastY;
-      const speed = Math.sqrt(dx * dx + dy * dy);
+      const x = e.clientX;
+      const y = e.clientY;
 
-      // Scale grows with velocity, lerps smoothly back to 1
-      const targetScale = 1 + Math.min(speed * 0.1, 2);
-      scale += (targetScale - scale) * 0.1;
+      if (!visible) {
+        setVisible(true);
+        cursor.style.opacity = "1";
+      }
 
-      // tip is at (5.5, 3.21) inside the SVG, offset translate to place it at the mouse
-      el.style.transform = `translate(${tx - 5.5}px, ${ty - 3.21}px) scale(${scale})`;
-      lastX = tx;
-      lastY = ty;
-      raf = requestAnimationFrame(tick);
+      // Zero-lag instant position tracking
+      cursor.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+
+      // Detect interactive element under cursor
+      const target = e.target as HTMLElement | null;
+      if (target) {
+        const interactive = target.closest(
+          'a, button, [role="button"], input[type="submit"], input[type="button"], .cursor-pointer, [data-cursor-hover]'
+        );
+        const textInput = target.closest(
+          'input:not([type="button"]):not([type="submit"]):not([type="checkbox"]), textarea'
+        );
+
+        const newHovered = !!interactive;
+        const newText = !!textInput;
+
+        if (newHovered !== isHovered || newText !== isText) {
+          isHovered = newHovered;
+          isText = newText;
+          updateState();
+        }
+      }
     };
 
-    el.style.opacity = "0";
-    tick();
+    const onMouseDown = () => {
+      isPressed = true;
+      updateState();
+    };
 
-    window.addEventListener("mousemove", onMove);
-    document.documentElement.addEventListener("mouseleave", onLeave);
-    document.documentElement.addEventListener("mouseenter", onEnter);
+    const onMouseUp = () => {
+      isPressed = false;
+      updateState();
+    };
+
+    const onMouseLeave = () => {
+      cursor.style.opacity = "0";
+    };
+
+    const onMouseEnter = () => {
+      cursor.style.opacity = "1";
+    };
+
+    window.addEventListener("mousemove", onMouseMove, { passive: true });
+    window.addEventListener("mousedown", onMouseDown);
+    window.addEventListener("mouseup", onMouseUp);
+    document.documentElement.addEventListener("mouseleave", onMouseLeave);
+    document.documentElement.addEventListener("mouseenter", onMouseEnter);
 
     return () => {
-      cancelAnimationFrame(raf);
-      window.removeEventListener("mousemove", onMove);
-      document.documentElement.removeEventListener("mouseleave", onLeave);
-      document.documentElement.removeEventListener("mouseenter", onEnter);
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("mousedown", onMouseDown);
+      window.removeEventListener("mouseup", onMouseUp);
+      document.documentElement.removeEventListener("mouseleave", onMouseLeave);
+      document.documentElement.removeEventListener("mouseenter", onMouseEnter);
     };
-  }, []);
+  }, [visible]);
 
   return (
     <div
       ref={cursorRef}
-      className="fixed top-0 left-0 pointer-events-none z-9999 hidden md:block"
+      aria-hidden="true"
+      className="fixed top-0 left-0 pointer-events-none z-[9999] hidden md:block opacity-0"
       style={{
         willChange: "transform",
         mixBlendMode: "difference",
-        transformOrigin: "5.5px 3.21px",
+        transition: "opacity 0.2s ease",
       }}
     >
-      {/* Exact cursor shape from user's CSS — tip at (5.5, 3.21) in viewBox */}
-      <svg
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="white"
-      >
-        <path d="M5.5 3.21V20.8c0 .45.54.67.85.35l4.86-4.86a.5.5 0 0 1 .35-.15h6.87a.5.5 0 0 0 .35-.85L6.35 2.85a.5.5 0 0 0-.85.35Z" />
-      </svg>
+      {/* Single unified cursor element with smooth scaling & subtle purple aura */}
+      <div
+        ref={innerRef}
+        style={{
+          width: "12px",
+          height: "12px",
+          marginLeft: "-6px",
+          marginTop: "-6px",
+          borderRadius: "50%",
+          backgroundColor: "#ffffff",
+          boxShadow: "0 0 14px rgba(168, 85, 247, 0.45)",
+          willChange: "transform",
+          transition: "transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease",
+        }}
+      />
     </div>
   );
 }

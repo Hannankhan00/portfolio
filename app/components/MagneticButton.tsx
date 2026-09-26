@@ -2,11 +2,12 @@
 import { useRef, useEffect } from "react";
 
 interface Props {
-  href: string;
+  href?: string;
+  onClick?: () => void;
 }
 
-export default function MagneticButton({ href }: Props) {
-  const btnRef  = useRef<HTMLAnchorElement>(null);
+export default function MagneticButton({ href, onClick }: Props) {
+  const btnRef  = useRef<HTMLElement>(null);
   const innerRef = useRef<HTMLSpanElement>(null);
   const glowRef  = useRef<HTMLSpanElement>(null);
 
@@ -79,15 +80,8 @@ export default function MagneticButton({ href }: Props) {
     };
   }, []);
 
-  return (
-    <a
-      ref={btnRef}
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="group relative inline-flex items-center gap-3 px-9 py-4 rounded-full border border-accent/25 text-white text-sm font-bold tracking-[0.12em] uppercase overflow-hidden transition-[border-color,box-shadow] duration-300 mag-active:border-accent/60"
-      style={{ willChange: "transform", background: "rgba(168,85,247,0.06)" }}
-    >
+  const content = (
+    <>
       {/* Spotlight glow layer */}
       <span
         ref={glowRef}
@@ -121,9 +115,41 @@ export default function MagneticButton({ href }: Props) {
       </span>
 
       {/* Outer glow ring when active */}
-      <span className="absolute inset-0 rounded-full opacity-0 transition-opacity duration-300 group-[.mag-active]:opacity-100 pointer-events-none"
+      <span
+        className="absolute inset-0 rounded-full opacity-0 transition-opacity duration-300 group-[.mag-active]:opacity-100 pointer-events-none"
         style={{ boxShadow: "0 0 40px rgba(168,85,247,0.22)" }}
       />
+    </>
+  );
+
+  const sharedClasses =
+    "group relative inline-flex items-center gap-3 px-9 py-4 rounded-full border border-accent/25 text-white text-sm font-bold tracking-[0.12em] uppercase overflow-hidden transition-[border-color,box-shadow] duration-300 mag-active:border-accent/60 cursor-pointer";
+  const sharedStyle = { willChange: "transform", background: "rgba(168,85,247,0.06)" };
+
+  if (onClick) {
+    return (
+      <button
+        ref={btnRef as React.RefObject<HTMLButtonElement>}
+        type="button"
+        onClick={onClick}
+        className={sharedClasses}
+        style={sharedStyle}
+      >
+        {content}
+      </button>
+    );
+  }
+
+  return (
+    <a
+      ref={btnRef as React.RefObject<HTMLAnchorElement>}
+      href={href || "mailto:8hannankhan00@gmail.com"}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={sharedClasses}
+      style={sharedStyle}
+    >
+      {content}
     </a>
   );
 }

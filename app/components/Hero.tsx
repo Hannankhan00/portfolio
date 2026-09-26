@@ -5,6 +5,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import MagneticButton from "./MagneticButton";
 import ScrollArrow from "./ScrollArrow";
+import { openContactModal } from "./ContactModal";
 import dynamic from "next/dynamic";
 
 // Lanyard uses WebGL — load client-side only (no SSR)
@@ -85,7 +86,7 @@ export default function Hero() {
           </p>
 
           <div className="flex flex-col items-start gap-4 hero-el hero-el-4">
-            <MagneticButton href="mailto:8hannankhan00@gmail.com" />
+            <MagneticButton onClick={openContactModal} />
 
             <div className="flex items-center gap-2.5">
               <span className="relative flex h-2 w-2">

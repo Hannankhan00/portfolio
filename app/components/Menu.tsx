@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { openContactModal } from "./ContactModal";
 
 const links = [
   { label: "About",      href: "#about",      num: "01" },
@@ -78,7 +79,13 @@ export default function Menu() {
               <a
                 key={label}
                 href={href}
-                onClick={close}
+                onClick={(e) => {
+                  close();
+                  if (href === "#contact") {
+                    e.preventDefault();
+                    openContactModal();
+                  }
+                }}
                 className="flex items-center justify-between px-5 py-3.5 border-b border-white/4 last:border-0 group transition-colors duration-150 hover:bg-white/4"
                 style={{ animationDelay: `${i * 35}ms` }}
               >

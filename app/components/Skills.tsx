@@ -15,11 +15,6 @@ import type { IconType } from "react-icons";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
-const chunk = <T,>(arr: T[], size: number): T[][] =>
-  Array.from({ length: Math.ceil(arr.length / size) }, (_, i) =>
-    arr.slice(i * size, i * size + size)
-  );
-
 interface Skill {
   name: string;
   icon: IconType;
